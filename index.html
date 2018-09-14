@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html data-ng-app="Astest">
+<head>
+    <!--Import Google Icon Font-->
+    <link href="css/icon.css" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/katex.min.css" media="screen,projection"/>
+
+    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/katex.min.js"></script>
+    <script type="text/javascript" src="js/astest.js"></script>
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="utf-8"/>
+
+    <style>
+
+        .col.grid-example {
+            border: 1px solid #eee;
+            margin: 7px 0;
+            text-align: center;
+            line-height: 50px;
+            font-size: 28px;
+            background-color: #f0c3ff;
+            color: white;
+            padding: 0;
+        }
+
+    </style>
+</head>
+
+<body data-ng-controller="Ascontroller">
+
+
+<nav class="nav-extended">
+    <div class="nav-wrapper  indigo darken-4">
+        <a href="#!" class="brand-logo center">Assessment Test</a>
+        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+            <!--<li><a class="waves-effect waves-light btn orange darken-1">Button</a></li>
+            <li><a class="waves-effect waves-light btn orange darken-1">Button<i
+                    class="material-icons right">send</i></a></li>-->
+
+        </ul>
+        <ul class="side-nav" id="mobile-demo">
+            <li><a class="waves-effect waves-light btn orange darken-1">End Test</a></li>
+            <li><a class="waves-effect waves-light btn orange darken-1">Back to Home</a></li>
+        </ul>
+    </div>
+    <div class="nav-content indigo darken-4" style="padding-bottom:15px;text-align:center;" data-ng-show="clickedonstart">
+        <a id="timerbutton" class="topbuttons waves-effect waves-light btn orange darken-1" style="margin:auto;">Timer</a>
+        <a class="topbuttons waves-effect waves-light btn orange darken-1"
+           style="margin:auto;margin-left:10px;"
+           data-ng-click="finishtest()" data-ng-show="!endtest">Submit
+            Test<i class="material-icons right" style="line-height: 38px">send</i></a>
+    </div>
+</nav>
+
+
+
+<div class="row container" data-ng-show="clickedonstart && !endtest">
+    <div data-ng-repeat="quesno in visitedquestions">
+        <div class="col s2 m1 grid-example"
+             data-ng-click="numberclick(quesno.qno)"
+             style="cursor:pointer;cursor:hand;background-color:{{optioncolor(quesno.qno)}}">{{quesno.qno}}</div>
+    </div>
+
+</div>
+
+
+<div class="container row" data-ng-show="!clickedonstart && !endtest">
+    <div class="col s12 m12">
+        <div class="card light-green accent-4">
+            <div class="card-content white-text">
+                <span class="card-title">Begin Assessment Test</span>
+                <p>Click on the Start button to start the test. This test consists of 30 questions
+                , covers topics on mensuration and questions have varying difficulties. The time limit is 45 minutes,
+                 All the best ;-)</p>
+            </div>
+            <div class="card-action">
+                <a href="#" data-ng-click="clickstart();">START</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div data-ng-show="clickedonstart && !endtest">
+
+    <div data-ng-repeat="question in questionslist">
+        <div class="row container center" style="margin-top:10px;" data-ng-show="showQuestion(question.serial_no)">
+            <div class="col s12 m12">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="">
+                        <span class="card-title"></span>
+                    </div>
+                    <div class="card-content">
+                        <img src="{{question.image}}" />
+                        <h6 style="font-size: 1.5em; float: left;">Question No: {{question.serial_no}}</h6><br>
+                        <h5 style="font-size: 1.8em;">{{question.question}}</h5>
+                    </div>
+                    <div class="card-action">
+
+                        <form id="question{{question.serial_no}}" action="#">
+                            <p>
+                                <input class="with-gap" name="group1" type="radio"
+                                       id="{{question.serial_no}}option1rb" data-ng-click="optionselected(question.serial_no, 1)" value="1"/>
+                                <label for="{{question.serial_no}}option1rb" style="color: black;">
+                                    <a id="{{question.serial_no}}option1" style="color: black;"></a></label>
+                            </p>
+                            <p>
+                                <input class="with-gap" name="group1" type="radio"
+                                       id="{{question.serial_no}}option2rb" data-ng-click="optionselected(question.serial_no, 2)" value="2"/>
+                                <label for="{{question.serial_no}}option2rb" style="color: black;">
+                                    <a id="{{question.serial_no}}option2" style="color: black;"></a></label>
+                            </p>
+                            <p>
+                                <input class="with-gap" name="group1" type="radio"
+                                       id="{{question.serial_no}}option3rb" data-ng-click="optionselected(question.serial_no, 3)" value="3" />
+                                <label for="{{question.serial_no}}option3rb" style="color: black;">
+                                    <a id="{{question.serial_no}}option3" style="color: black;"></a></label>
+                            </p>
+                            <p>
+                                <input class="with-gap" name="group1" type="radio"
+                                       id="{{question.serial_no}}option4rb" data-ng-click="optionselected(question.serial_no, 4)" value="4"/>
+                                <label for="{{question.serial_no}}option4rb" style="color: black;">
+                                    <a id="{{question.serial_no}}option4" style="color: black;"></a></label>
+                            </p>
+
+                            <button class="btn waves-effect waves-light {{prevdisabled(question.serial_no)}}"  data-ng-click="previousclicked()" type="button" name="previousbutton">
+                                <i class="material-icons right">fast_rewind</i>Previous
+                            </button>
+                            <button class="btn waves-effect waves-light {{nextdisabled(question.serial_no)}}" type="button"
+                                    data-ng-click="nextclicked()" name="nextbutton">Next
+                                <i class="material-icons right">send</i>
+                            </button>
+                            <button class="btn waves-effect waves-light" type="button" name="clearbutton"
+                                    data-ng-click="clearquestion(question.serial_no)">Clear
+                                <i class="material-icons right">loop</i>
+                            </button>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+<div class="container row" data-ng-show="endtest">
+    <div class="col s12 m12">
+        <div class="card light-green accent-4">
+            <div class="card-content white-text">
+                <span class="card-title">Thank You for Taking the Test</span>
+                <p>Thank you for taking the test. Your responses and time spent on each question has been saved successfully!</p>
+            </div>
+            <div class="card-action">
+                <a href="#" data-ng-click="">View Results and Analysis</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Import jQuery before materialize.js-->
+
+<script type="text/javascript" src="js/materialize.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $(".button-collapse").sideNav();
+
+
+    });
+</script>
+</body>
+</html>
+        
