@@ -1,4 +1,4 @@
-### JS MCQ page GUI
+## Dynamic MCQ Page GUI
 ##### Features:
 - Propely formatted equations in Latex
 - Keeps track of answered, unanswered and visited questions
